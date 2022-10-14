@@ -1,4 +1,3 @@
-#pragma comment(lib, "rpcrt4.lib") 
 #include <iostream>
 #include "GameObjects/GameObjectFactory.h"
 #include "board.h"
