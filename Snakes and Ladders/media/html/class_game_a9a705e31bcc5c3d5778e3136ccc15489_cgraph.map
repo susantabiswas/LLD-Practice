@@ -1,0 +1,12 @@
+<map id="Game::playGame" name="Game::playGame">
+<area shape="rect" id="node1" title=" " alt="" coords="5,153,129,179"/>
+<area shape="rect" id="node2" href="$class_game.html#ae2ba56a2efcddf8d0aac62acc88d2d42" title=" " alt="" coords="177,5,336,31"/>
+<area shape="rect" id="node3" href="$class_game.html#a102ce6e5a222e403aa7a0465ff6281dc" title=" " alt="" coords="189,55,325,80"/>
+<area shape="rect" id="node4" href="$class_board.html#a0635655cfa1d092f1022444c01342005" title=" " alt="" coords="191,104,322,129"/>
+<area shape="rect" id="node6" href="$class_board.html#adaca99f6062d1402944dd6df81eeba56" title=" " alt="" coords="190,153,323,179"/>
+<area shape="rect" id="node7" href="$class_dice.html#ab3f51784786597db4b02aab158146df1" title=" " alt="" coords="207,203,306,228"/>
+<area shape="rect" id="node9" href="$class_game.html#af88348a23dd1e66009367ff6705efdb9" title=" " alt="" coords="182,252,331,277"/>
+<area shape="rect" id="node10" href="$class_game.html#a03e9c2fc4ca2c70a98ab1e83a2b1d2d8" title=" " alt="" coords="177,301,336,327"/>
+<area shape="rect" id="node5" href="$class_player.html#a50072c1120d3e113c40b3733e55ab3a9" title=" " alt="" coords="384,129,516,155"/>
+<area shape="rect" id="node8" href="$class_dice.html#ac74d6875d2b0a71ff640a16246e11163" title=" " alt="" coords="385,203,515,228"/>
+</map>

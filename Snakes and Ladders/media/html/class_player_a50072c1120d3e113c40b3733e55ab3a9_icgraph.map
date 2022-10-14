@@ -1,0 +1,8 @@
+<map id="Player::getPosition" name="Player::getPosition">
+<area shape="rect" id="node1" title=" " alt="" coords="476,55,608,80"/>
+<area shape="rect" id="node2" href="$class_board.html#a0635655cfa1d092f1022444c01342005" title=" " alt="" coords="287,5,417,31"/>
+<area shape="rect" id="node5" href="$struct_player_hash.html#acf471f448e0fb6ba98ddc07d7188da33" title=" " alt="" coords="276,55,428,80"/>
+<area shape="rect" id="node6" href="$class_board.html#adaca99f6062d1402944dd6df81eeba56" title=" " alt="" coords="285,104,419,129"/>
+<area shape="rect" id="node3" href="$class_game.html#a9a705e31bcc5c3d5778e3136ccc15489" title=" " alt="" coords="104,55,228,80"/>
+<area shape="rect" id="node4" href="$game_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,55,56,80"/>
+</map>

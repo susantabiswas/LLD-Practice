@@ -1,0 +1,4 @@
+<map id="Ladder" name="Ladder">
+<area shape="rect" id="node1" title=" " alt="" coords="5,181,140,280"/>
+<area shape="rect" id="node2" href="$class_game_object.html" title=" " alt="" coords="5,5,140,133"/>
+</map>

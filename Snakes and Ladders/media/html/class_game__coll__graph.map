@@ -1,0 +1,3 @@
+<map id="Game" name="Game">
+<area shape="rect" id="node1" title="Game class orchestrates the entire game. It mainly uses dice, board and player objects." alt="" coords="5,5,141,148"/>
+</map>
