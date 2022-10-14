@@ -6,7 +6,7 @@
 #include "utils.h"
 using namespace std;
 
-/*
+/*!
     Class representing a player.
     A player has two main properties:
     1. Name
@@ -49,7 +49,9 @@ public:
     }
 };
 
-// Custom Hash function for Player class
+/*! 
+    Custom Hash function for Player class
+*/
 struct PlayerHash
 {
     size_t operator()(const Player& p) const {

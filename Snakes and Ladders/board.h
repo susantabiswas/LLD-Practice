@@ -7,7 +7,7 @@
 #include <iostream>
 using namespace std;
 
-/*
+/*!
     Class to represent the board. It is a dim x dim dimensioned board.
     It can have special game objects like Snakes and Ladders.
 
@@ -26,14 +26,14 @@ class Board {
 public:
     Board(int n): dim(n) { end_position = dim * dim; };
 
-    /* Add Snakes or Ladders to the board
+    /*! Add Snakes or Ladders to the board
     */
     void addGameObject(GameObject*& obj) {
         game_objects[obj->getStartPosition()] = obj;
     }
 
-    /* Returns the final position of player given after walking
-     'moves' steps on the board
+    /*! Returns the final position of player given after walking
+        'moves' steps on the board
     */
     int movePlayer(Player player, int moves) {
         int position = player.getPosition();
@@ -55,14 +55,14 @@ public:
         return final_position;
     }
 
-    /*
+    /*!
         Whether the player has reached the end position of board or not
     */
     bool reachedEnd(Player player) {
         return player.getPosition() == end_position;
     }
 
-    /*
+    /*!
         Prints the Snakes and Ladder board. Uses
         S and L to represent Snake and Ladder respectively.
     */
