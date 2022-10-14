@@ -4,13 +4,16 @@
 #include <iostream>
 using namespace std;
 
-// Represent Game objects
+/*
+    Represent Game objects
+*/
 enum SnakeLadderGameObject {
     SnakeObject, LadderObject 
 };
 
-// Abstract class to represent game objects like
-// Snakes and Ladders
+/* Abstract class to represent game objects like
+ Snakes and Ladders
+*/
 class GameObject {
 protected:
     int start = 0, end = 0;

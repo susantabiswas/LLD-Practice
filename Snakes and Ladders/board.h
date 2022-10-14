@@ -8,6 +8,9 @@
 using namespace std;
 
 /*
+    Class to represent the board. It is a dim x dim dimensioned board.
+    It can have special game objects like Snakes and Ladders.
+
     addGameObject(): Adds special game elements
     reachedEnd(player): whether the player has finished the game or not
     movePlayer(player, int moves): Returns the final position of player after moves steps
@@ -23,12 +26,15 @@ class Board {
 public:
     Board(int n): dim(n) { end_position = dim * dim; };
 
+    /* Add Snakes or Ladders to the board
+    */
     void addGameObject(GameObject*& obj) {
         game_objects[obj->getStartPosition()] = obj;
     }
 
-    // Returns the final position of player given after walking
-    // 'moves' steps on the board
+    /* Returns the final position of player given after walking
+     'moves' steps on the board
+    */
     int movePlayer(Player player, int moves) {
         int position = player.getPosition();
         int final_position = position + moves;
@@ -41,17 +47,25 @@ public:
 
         // player hit either a snake or ladder
         if(game_objects.count(final_position)) {
-            cout << "Player reached a " << (game_objects[final_position]->getObjectType() == SnakeObject ? "Snake" : "Ladder") << endl;
+            cout << "Player reached a " 
+                << (game_objects[final_position]->getObjectType() == SnakeObject ? "Snake" : "Ladder") << endl;
             return game_objects[final_position]->getEndPosition();
         }
 
         return final_position;
     }
 
+    /*
+        Whether the player has reached the end position of board or not
+    */
     bool reachedEnd(Player player) {
         return player.getPosition() == end_position;
     }
 
+    /*
+        Prints the Snakes and Ladder board. Uses
+        S and L to represent Snake and Ladder respectively.
+    */
     void printBoard() {
         for(int r = dim*dim - dim; r >= 0; r -= dim) {
             for(int c = dim; c >= 1; c--) {

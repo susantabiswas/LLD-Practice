@@ -1,11 +1,16 @@
 #include "Snake.h"
 #include "Ladder.h" 
 
+/*
+    Factory to create an object of GameObject.
+*/
 class GameObjectFactory {
 public:
-    // Factory method that creates a GameObject based on requirement.
-    // For a snake, lower point is the end and upper point is the start.
-    // For a ladder, lower point is the start and upper point is the end.
+    /*
+        Factory method that creates a GameObject based on requirement.
+        For a snake, lower point is the end and upper point is the start.
+        For a ladder, lower point is the start and upper point is the end.
+    */
     static GameObject* createGameObject(
         SnakeLadderGameObject object_type,
         int lower_pt, 

@@ -2,6 +2,10 @@
 #include <random>
 using namespace std;
 
+/*
+    Class that represents a dice. 
+    It mainly has a rollDice method that mimics a dice throw.
+*/
 class Dice {
 private:
     int faces = 6;
@@ -21,10 +25,12 @@ public:
         mt = mt19937(random_device()());
     }
     
+    // Single dice throw
     int getDiceFace() {
         return dist(mt);
     }
 
+    // Final moves in case we get multiple 6s during throws
     int rollDice() {
         int throws = 1;
         int value = 0;

@@ -7,7 +7,11 @@
 using namespace std;
 
 /*
-    Class representing the player.
+    Class representing a player.
+    A player has two main properties:
+    1. Name
+    2. Unique Id: Can be used to uniquely identify a player as players can 
+                have the same name.
 */
 class Player {
 private: 

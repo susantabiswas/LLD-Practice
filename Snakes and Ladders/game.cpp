@@ -9,6 +9,7 @@
 
 using namespace std;
 
+/// @brief Game class orchestrates the entire game. It mainly uses dice, board and player objects.
 class Game {
 private:
     Dice dice;
@@ -26,6 +27,10 @@ private:
     // Tracks the players who have finished the game in the order of completion
     map<int, Player> rankings;
 public:
+    /*!
+        Registers the players to the game.
+        It uses composition and has board and dice objects.
+    */
     Game(Board board, Dice dice, vector<Player>& players, 
         bool single_player_game_over = true)
         : board(board), dice(dice) {
@@ -45,11 +50,17 @@ public:
         cout << "Single Player Game Over: " << single_player_game_over << endl;
     };
 
+    /*! 
+        Registers a player to the game
+    */
     void registerPlayer(Player& player) {
         this->players[player.getId()] = player;
         cout << "Player: " << player.getId() << " added\n";
     }
 
+    /*! 
+        De-registers a player to the game
+    */
     void deregisterPlayer(const string& id) {
         if(!players.count(id))
             throw invalid_argument("Player Id doesn't exists!!");
@@ -58,6 +69,11 @@ public:
         cout << "Player: " << id << "removed\n";
     }
 
+    /*!
+        Checks if the condition has been met to end the game.
+        players_who_finished: If this is set, then the game gets over when a 
+        single player wins.
+    */
     bool isGameOver() {
         int players_who_finished = rankings.size();
         // Game is over if a single winner has emerged
@@ -68,6 +84,9 @@ public:
         return players_who_finished == this->total_players;
     }
 
+    /*!
+        Leaderboard is maintained, a new player is added to it.
+    */
     void updateRankings(const Player& player) {
         if(rankings.empty()) {
             rankings[1] = player;
@@ -77,12 +96,22 @@ public:
         rankings[last_rank + 1] = player;
     }
 
+    /*!
+        Prints the leaderboard rankings.
+    */
     void showRankings() {
         cout << endl << "Leaderboard Rankings\n";
         for(auto [rank, player]: rankings)
             cout << rank << ". " << player.getName() << " (" << player.getId() << ")\n";
     }
 
+    /*!
+        Driver method that runs the game.
+        It runs a game loop where each loop iteration ensures that each player rolls the
+        dice and make the moves.
+
+        In case a player reaches the end position of board, they are added to the leaderboard.
+    */
     void playGame() {
         while(!isGameOver()) {
             // Each player will take a turn. The game ends if 
@@ -119,29 +148,21 @@ public:
 };
 
 int main() {
+    // Dice instance
     Dice dice(3);
-    
+    // Snake and Ladder instance
     Board board(5);
 
     // Create Snakes and Ladders
-    // vector<GameObject*> gameObjects = {
-    //     GameObjectFactory::createGameObject(SnakeObject, 3, 99),
-    //     GameObjectFactory::createGameObject(SnakeObject, 3, 96),
-    //     GameObjectFactory::createGameObject(SnakeObject, 13, 67),
-    //     GameObjectFactory::createGameObject(SnakeObject, 66, 88),
-    //     GameObjectFactory::createGameObject(SnakeObject, 28, 77),
-    //     GameObjectFactory::createGameObject(SnakeObject, 55, 66),
-    //     GameObjectFactory::createGameObject(LadderObject, 4, 98),
-    //     GameObjectFactory::createGameObject(LadderObject, 5, 60),
-    //     GameObjectFactory::createGameObject(LadderObject, 14, 82),
-    //     GameObjectFactory::createGameObject(LadderObject, 54, 97),
-    //     GameObjectFactory::createGameObject(LadderObject, 44, 93),
-    //     GameObjectFactory::createGameObject(LadderObject, 35, 61),
-    // };
+    vector<GameObject*> gameObjects = {
+        GameObjectFactory::createGameObject(SnakeObject, 3, 9),
+        GameObjectFactory::createGameObject(SnakeObject, 5, 19),
+        GameObjectFactory::createGameObject(LadderObject, 6, 24),
+        GameObjectFactory::createGameObject(LadderObject, 10, 22),
+        GameObjectFactory::createGameObject(LadderObject, 11, 20),
+    };
 
-    vector<GameObject*> gameObjects = {};
-
-    // Add snakes and ladders
+    // Add snakes and ladders to the board
     for(auto game_obj: gameObjects)
         board.addGameObject(game_obj);
     
@@ -150,6 +171,7 @@ int main() {
         Player("Alpha"), Player("Beta"), Player("Gamma")
     };
 
+    // Create the game object and then start the game
     Game game(board, dice, players, false);
     
     // Start game till one player wins
