@@ -7,14 +7,14 @@ using namespace std;
 class NotFoundException: exception {
 public:
     char* what() {
-        return "Instance not found!!";
+        return "Instance not found!!\n";
     }
 };
 
 class InstanceAlreadyExists: exception {
 public:
     char* what() {
-        return "Instance already exists!";
+        return "Instance already exists!\n";
     }
 };
 

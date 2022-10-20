@@ -6,8 +6,8 @@
 - Track an user's transactions
 - Money split options:
   - Equal: Equally split amongst the participants
-  - Percentage: Each person pays x % of amount. Check: Total sum of %s = 100
-  - Exact: Each user pays the amount assigned to them. Check: Sum of each person's share = Total amount
+  - Percentage: Each user pays x % of amount. Check: Total sum of %s = 100
+  - Exact: Each user pays the amount assigned to them. Check: Sum of each user's share = Total amount
 - Each transaction can have data like name, notes, pic etc
 - [Optional] Simplify Expenses:
   If there is a graph of users. Where each user is connected to another because they owe money.

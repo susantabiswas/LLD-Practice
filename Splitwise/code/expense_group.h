@@ -5,7 +5,7 @@
 #include <random>
 #include <unordered_map>
 #include "utils.h"
-#include "manager/manger_base.h"
+#include "manager.h"
 
 using namespace std;
 
@@ -23,15 +23,15 @@ private:
     string group_id_ = "";
     //! Any other string metadata/description for the expense
     string details_ = "";
-    //! Tracks the people who are part of this group
+    //! Tracks the users who are part of this group
     unordered_set<string> participants_;
 public:
-    ExpenseGroup(string name, int amount, vector<string>& participants,
+    ExpenseGroup(string name, vector<string>& participants,
         string details = "") {
         this->name_ = name;
         this->group_id_ = getUniqueId(5);
 
-        participants_(participants.begin(), participants.end());
+        participants_ = unordered_set<string>(participants.begin(), participants.end());
         
         // Set metadata if any
         if(details.size() > 0)
@@ -44,10 +44,10 @@ public:
 
     string getDetails() const { return details_; }
 
-    void addParticipant(string personId) {
-        // Idempotent operation, if a person is already
+    void addParticipant(string userId) {
+        // Idempotent operation, if a user is already
         // present, no change is observed
-        this->participant.emplace(personId);
+        this->participants_.emplace(userId);
     }
 };
 

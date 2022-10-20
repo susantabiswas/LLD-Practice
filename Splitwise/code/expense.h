@@ -2,11 +2,8 @@
 #define EXPENSE_H
 
 #include <iostream>
-#include <random>
 #include <unordered_map>
-#include "borrowing.h"
-#include "person.h"
-
+#include "utils.h"
 using namespace std;
 
 /**
@@ -22,15 +19,18 @@ private:
     string details_ = "";
     // Total amount for the expense
     int amount_ = 0;
-    // <PersonId>: People part of this expense
+    // <UserId>: People part of this expense
     unordered_set<string> participants_;
+    // Expense ID
+    string expense_id_;
 public:
     
     Expense(string name, int amount, vector<string>& participants,
         string details = "", string group_id = "") {
         this->name_ = name;
-        
-        participants_(participants.begin(), participants.end());
+        this->expense_id_ = getUniqueId(5);
+
+        participants_ = unordered_set<string>(participants.begin(), participants.end());
 
         // Set Expense Group Id and metadata if any
         if(details.size() > 0)
@@ -39,6 +39,7 @@ public:
             this->expense_group_id_ = group_id;
     }
 
+    string getExpenseId() const { return expense_id_; }
 
     string getName() const { return name_; }
 
@@ -53,9 +54,9 @@ public:
             this->participants_.end());
     }
     
-    void addParticipant(string personId) {
+    void addParticipant(string userId) {
         // Idempotent operation
-        this->participants_.emplace([personId]);
+        this->participants_.emplace(userId);
     }
 };
 

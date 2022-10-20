@@ -3,13 +3,13 @@
 
 #include <iostream>
 #include "split_technique.h"
-#include "../person.h"
+#include "../user.h"
 using namespace std;
 
 class EqualSplit : SplitTechniqueBase {
 public:
-    void splitAmount(int amount, vector<Person>& participants) {
-        
+    void splitAmount(int amount, vector<User>& participants) {
+
     }
 };
 
