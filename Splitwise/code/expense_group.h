@@ -5,7 +5,7 @@
 #include <random>
 #include <unordered_map>
 #include "utils.h"
-#include "manager.h"
+#include "resource_manager.h"
 
 using namespace std;
 
@@ -25,6 +25,8 @@ private:
     string details_ = "";
     //! Tracks the users who are part of this group
     unordered_set<string> participants_;
+    //! Tracks the expenses part of this group
+    unordered_set<string> expenses_;
 public:
     ExpenseGroup(string name, vector<string>& participants,
         string details = "") {
@@ -44,10 +46,16 @@ public:
 
     string getDetails() const { return details_; }
 
-    void addParticipant(string userId) {
+    void addParticipant(string user_id) {
         // Idempotent operation, if a user is already
         // present, no change is observed
-        this->participants_.emplace(userId);
+        this->participants_.emplace(user_id);
+    }
+
+    void addExpense(string expense_id) {
+        // Idempotent operation, if a user is already
+        // present, no change is observed
+        this->expenses_.emplace(expense_id);
     }
 };
 

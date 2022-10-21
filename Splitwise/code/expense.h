@@ -19,15 +19,18 @@ private:
     string details_ = "";
     // Total amount for the expense
     int amount_ = 0;
+    // User who paid for the expense
+    string payer_id_;
     // <UserId>: People part of this expense
     unordered_set<string> participants_;
     // Expense ID
     string expense_id_;
 public:
     
-    Expense(string name, int amount, vector<string>& participants,
+    Expense(string name, int amount, string payer_id, vector<string>& participants,
         string details = "", string group_id = "") {
         this->name_ = name;
+        this->payer_id_ = payer_id;
         this->expense_id_ = getUniqueId(5);
 
         participants_ = unordered_set<string>(participants.begin(), participants.end());

@@ -22,7 +22,7 @@ private:
 
     //! People who are owed money by this user
     // <userId, amount owed>
-    unordered_map<string, int> owed_;
+    unordered_map<string, double> owed_;
     
     //! Tracks all the expense transactions involving this user
     // <expenseId>
@@ -43,6 +43,30 @@ public:
     string getEmail() const { return email_; }
 
     string getPhoneNumber() const { return phone_number_; }
+
+    void addUserOwed(string user_id, double amt) {
+        this->owed_[user_id] += amt;
+    }
+
+    void addExpense(string expense_id) {
+        this->expenses_.emplace(expense_id);
+    }
+
+    void addExpenseGroup(string expense_group_id) {
+        this->expense_groups_.emplace(expense_group_id);
+    }
+
+    unordered_set<string> getExpenses() const {
+        return this->expenses_;
+    }
+
+    unordered_set<string> getExpenseGroups() const {
+        return this->expense_groups_;
+    }
+
+    unordered_map<string, double> getOwedUsers() const {
+        return this->owed_;
+    }
 };
 
 //! Sample hash function for above class: This is not a really good one

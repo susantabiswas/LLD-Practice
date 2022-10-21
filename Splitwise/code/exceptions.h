@@ -18,4 +18,10 @@ public:
     }
 };
 
+class ShareNotEqualToTotal : exception {
+public:
+    char* what() {
+        return "Sum of shares of each user isn't equal to total!\n";
+    }
+};
 #endif

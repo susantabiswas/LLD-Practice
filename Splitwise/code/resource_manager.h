@@ -7,7 +7,7 @@
 using namespace std;
 
 template <typename T>
-class Manager {
+class ResourceManager {
 private:
     unordered_map<string, T*> instances_;
 public:
@@ -19,7 +19,7 @@ public:
     }
 
     void addInstance(string id, T* instance) {
-        // check if already present
+        // check if already present with the same id
         if(isPresent(id))
             throw InstanceAlreadyExists();
         instances_[id] = instance;
@@ -31,6 +31,8 @@ public:
             throw NotFoundException();
         instances_.erase(id);
     }
+
+    unordered_map<string, T*> getAllInstances() { return this->instances_; }
 
     bool isPresent(string id) { return this->instances_.count(id); }
 };
