@@ -6,11 +6,21 @@
 #include "exceptions.h"
 using namespace std;
 
+/**
+ * @brief Manager that manages T type of resource. Supports get, add, delete operations.
+ * 
+ * @tparam T : Kind of resource
+ */
 template <typename T>
 class ResourceManager {
 private:
     unordered_map<string, T*> instances_;
 public:
+    ResourceManager() {
+        instances_ = unordered_map<string, T*>();
+        instances_.clear();
+    }
+
     T* getInstance(string id) {
         // check if instance exists
         if(!isPresent(id))
@@ -34,6 +44,8 @@ public:
 
     unordered_map<string, T*> getAllInstances() { return this->instances_; }
 
-    bool isPresent(string id) { return this->instances_.count(id); }
+    bool isPresent(string& id) { 
+        return this->instances_.count(id); 
+    }
 };
 #endif

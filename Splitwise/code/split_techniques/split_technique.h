@@ -4,11 +4,19 @@
 #include <vector>
 #include "../user.h"
 
+/**
+ * @brief Enum that represents the various splitting techniques.
+ * 
+ */
 enum SplitType { Equal, Exact, Percentage };
 
+/**
+ * @brief Base class for implementing split technique
+ * 
+ */
 class SplitTechniqueBase {
 public:
-    virtual void splitAmount(double amount, string payer_id, 
+    virtual void splitAmount(double amount, User* payer, 
         vector<User*>& participants, vector<double> share = {}) = 0;
 };
 

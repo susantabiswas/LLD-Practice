@@ -28,8 +28,7 @@ private:
     //! Tracks the expenses part of this group
     unordered_set<string> expenses_;
 public:
-    ExpenseGroup(string name, vector<string>& participants,
-        string details = "") {
+    ExpenseGroup(string name, vector<string> participants, string details = "") {
         this->name_ = name;
         this->group_id_ = getUniqueId(5);
 
@@ -42,7 +41,7 @@ public:
 
     string getName() const { return name_; }
 
-    string getGroupId() const { return group_id_; }
+    string getGroupId() const { return this->group_id_; }
 
     string getDetails() const { return details_; }
 

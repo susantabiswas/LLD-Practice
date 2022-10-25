@@ -12,7 +12,8 @@ using namespace std;
  * @return id string 
  */
 string getUniqueId(int len) {
-    mt19937 mt;
+    random_device rd;
+    mt19937 mt(rd());
     uniform_int_distribution<int> dist{1, 256};
 
     string id;

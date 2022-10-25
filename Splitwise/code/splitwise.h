@@ -1,5 +1,5 @@
-#ifndef SPLITWISE_CPP
-#define SPLITWISE_CPP
+#ifndef SPLITWISE_H
+#define SPLITWISE_H
 
 #include <iostream>
 #include "split_techniques/split_controller.h"
@@ -10,8 +10,13 @@
 
 using namespace std;
 
+/**
+ * @brief Driver class that runs the split wise functionality.
+ * 
+ */
 class Splitwise {
 private:
+    //! Managers to keep track of users, expenses and expense groups
     ResourceManager<User> user_manager_;
     ResourceManager<Expense> expense_manager_;
     ResourceManager<ExpenseGroup> expense_group_manager_;
@@ -19,16 +24,21 @@ private:
     SplitController split_controller_;
 
 public:
+    Splitwise() { }
+
     ////////////////////////////////// User related Operations ///////////////////////
-    void registerUser(string name, string email,
+    User* registerUser(string name, string email,
         string phone_number) {
         User* user = new User(name, email, phone_number);
         try {
             this->user_manager_.addInstance(user->getUserId(), user);
+            return user;
         }
         catch(InstanceAlreadyExists) {
             cout << "User with same Id already exists!\n";
         }
+
+        return user;
     }
 
     void deregisterUser(string user_id) {
@@ -57,28 +67,57 @@ public:
             cout << "Name: " << owed_user->getName() << " Amount: " << amount << endl;
         }
     }
+
+    void showAllOwedUsers() {
+        cout << "%%%%%%%%%%%%%% Showing all owed accounts %%%%%%%%%%%%%%\n";
+        auto user_ids = user_manager_.getAllInstances();
+
+        for(auto [user_id, user] : user_ids) {
+            showOwedUsers(user_id);
+            cout << endl;
+        }
+        cout << endl;
+    }
+
     ////////////////////////////////// Expense related Operations ///////////////////////
-    void addExpense(string name, int amount, string payer_id, vector<string>& participants,
-        string details = "", string group_id = "") {
+    Expense* addExpense(string name, int amount, User* payer, 
+        vector<string> participants, string details = "", string group_id = "", 
+        SplitType split_type = Equal, vector<double> share = {}) {
 
         // check if expense group exists
         if(!group_id.empty() && !this->expense_group_manager_.isPresent(group_id)) 
             throw NotFoundException();
 
         // create expense
-        Expense* expense = new Expense(name, amount, payer_id,participants, details, group_id);
+        Expense* expense = new Expense(name, amount, payer->getUserId() , participants, 
+            details, group_id, split_type);
 
         // add the expense to expense resource_manager
         try {
             this->expense_manager_.addInstance(expense->getExpenseId(), expense);
         }
-        catch(InstanceAlreadyExists) {
+        catch(InstanceAlreadyExists e) {
             cout << "Expense with same Id already exists!\n";
+            throw e;
         }
         // add the expense to expense group
         if(!group_id.empty())
             this->expense_group_manager_
                 .getInstance(group_id)->addExpense(expense->getExpenseId());
+
+        // list of particiapants 
+        vector<User*> users;
+        for(auto user_id: participants) {
+            users.emplace_back(user_manager_.getInstance(user_id));
+            // add the expense to each of the user
+            user_manager_
+                .getInstance(user_id)->addExpense(expense->getExpenseId());
+        }
+        
+        // split the amount amongst the participants
+        splitAmount(split_type, amount, payer, users, share);
+        
+        return expense;
     }
 
     void deleteExpense(string expense_id) {
@@ -103,51 +142,11 @@ public:
         }
     }
 
-    ////////////////////////////////// Expense Group related Operations ///////////////////////
-    void addExpenseGroup(string name, vector<string>& participants, string details = "") {
-        ExpenseGroup* expense_group = new ExpenseGroup(name, participants, details);
-        try {
-            this->expense_group_manager_.addInstance(
-                expense_group->getGroupId(), expense_group);
-        }
-        catch(InstanceAlreadyExists) {
-            cout << "Expense with same Id already exists!\n";
-        }
-    }
-
-    void deleteExpenseGroup(string expense_group_id) {
-        try {
-            this->expense_group_manager_.removeInstance(expense_group_id);
-        }
-        catch(NotFoundException e) {
-            cout << e.what() ;
-        }
-    }
-
-    
-    void showExpenseGroups() {
-        auto groups = expense_group_manager_.getAllInstances();
-        for(auto [group_id, group] : groups) 
-            describeExpenseGroup(group_id);
-    }
-
-    void describeExpenseGroup(string group_id) {
-        if(!isPresent(expense_group_manager_, group_id))
-            throw NotFoundException();
-
-        auto group = expense_group_manager_.getInstance(group_id);
-        cout << "########### Expense Group details ##############\n";
-        cout << "Group Name : " << group->getName() << endl;
-        cout << "Group Id : " << group->getGroupId() << endl;
-
-        cout << "       Expenses     \n";
-    }
-
-    ////////////////////////////////////// Expense related operations /////////////////////
-    void splitAmount(SplitType split_type, double amount, string payer_id, 
+    void splitAmount(SplitType split_type, double amount, User* payer, 
         vector<User*>& participants, vector<double> share = {}) {
+
         try {
-            split_controller_.splitAmount(split_type, amount, payer_id, participants, share);
+            split_controller_.splitAmount(split_type, amount, payer, participants, share);
         }
         catch(ShareNotEqualToTotal e) {
             cout << e.what();
@@ -174,10 +173,11 @@ public:
             throw NotFoundException();
 
         auto expense = expense_manager_.getInstance(expense_id);
-            cout << "Expense details:\n";
-            cout << "Expense Name: " << expense->getName() << endl;
-            cout << "Amount: " << expense->getAmount() << endl;
-            cout << "Participants: ";
+        cout << "************ Expense details ***************\n";
+        cout << "Expense Name: " << expense->getName() << endl;
+        cout << "Expense Id: " << expense->getExpenseId() << endl;
+        cout << "Amount: " << expense->getAmount() << endl;
+        cout << "Participants: ";
 
             for(auto user_id : expense->getParticipants())
                 cout << user_manager_.getInstance(user_id)->getName() << ", ";
@@ -185,20 +185,61 @@ public:
     }
 
     void showAllUsersExpenses() {
+        cout << "########### Showing all user's expenses ##############\n";
         auto users = user_manager_.getAllInstances();
-        for(auto [user_id, user] : users) 
+        for(auto [user_id, user] : users) {
             showUserExpenses(user_id);
+            cout << endl;
+        }
+    }
+    ////////////////////////////////// Expense Group related Operations ///////////////////////
+    ExpenseGroup* addExpenseGroup(string name, vector<string> participants, string details = "") {
+        ExpenseGroup* expense_group = new ExpenseGroup(name, participants, details);
+        try {
+            this->expense_group_manager_.addInstance(
+                expense_group->getGroupId(), expense_group);
+            return expense_group;
+        }
+        catch(InstanceAlreadyExists) {
+            cout << "Expense with same Id already exists!\n";
+        }
+
+        return expense_group;
     }
 
+    void deleteExpenseGroup(string expense_group_id) {
+        try {
+            this->expense_group_manager_.removeInstance(expense_group_id);
+        }
+        catch(NotFoundException e) {
+            cout << e.what() ;
+        }
+    }
 
+    
+    void showAllExpenseGroups() {
+        cout << "########### Showing All Expense Group details ##############\n";
+        auto groups = expense_group_manager_.getAllInstances();
+        for(auto [group_id, group] : groups) 
+            describeExpenseGroup(group_id);
+    }
+
+    void describeExpenseGroup(string group_id) {
+        if(!isPresent(expense_group_manager_, group_id))
+            throw NotFoundException();
+
+        auto group = expense_group_manager_.getInstance(group_id);
+        cout << "########### Expense Group details ##############\n";
+        cout << "Group Name : " << group->getName() << endl;
+        cout << "Group Id : " << group->getGroupId() << endl;
+
+        cout << "       Expenses     \n";
+    }
+
+    ////////////////////////////////////// Helper operations /////////////////////
     template <typename T>
     bool isPresent(T& resource_manager, string id) {
         return resource_manager.isPresent(id);
     }
 };
-
-int main() {
-
-}
-
 #endif

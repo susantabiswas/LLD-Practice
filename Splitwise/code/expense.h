@@ -25,13 +25,17 @@ private:
     unordered_set<string> participants_;
     // Expense ID
     string expense_id_;
+    // Type of expense sharing
+    SplitType split_type_;
 public:
     
-    Expense(string name, int amount, string payer_id, vector<string>& participants,
-        string details = "", string group_id = "") {
+    Expense(string name, int amount, string payer_id, vector<string> participants,
+        string details = "", string group_id = "", SplitType split_type = Equal) {
         this->name_ = name;
+        this->amount_ = amount;
         this->payer_id_ = payer_id;
         this->expense_id_ = getUniqueId(5);
+        this->split_type_ = split_type;
 
         participants_ = unordered_set<string>(participants.begin(), participants.end());
 
