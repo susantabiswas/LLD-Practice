@@ -24,5 +24,11 @@
     We only simplify payment if that reduces the no. of people the direct receipient has to pay.
     Here x could have paid y(400) + b(600). But then y still has to pay the same no. of people.
   
-- [Optional] Settle up borrowings
+- [Optional] Settle up borrowings: For an user show money owed to other users
 - [Optional] Create Expense Groups with metadata
+- [Optional] Modify expense split type at a later moment. Eg From equal to exact later for a previous transaction.
+
+
+### Low Level Design - Class Diagram
+
+![UML](media/splitwise.jpg)
