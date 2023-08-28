@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <vector>
 #include <chrono>
@@ -46,18 +47,22 @@ public:
     double calculateCharge() { return this->paymentAdvisor->calculateCharge(this->getParkingDuration()); }
 };
 
+// This is a simple class that represents a parking ticket.
+// It contains the vehicle that was parked and the location where it was parked.
 class ParkingTicket {
-private:
-    Vehicle* vehicle;
-    // <floor, slotNumber>
-    pair<int, int> parkedLocation = {-1, -1};
-public:
-    ParkingTicket(Vehicle* vehicle, pair<int, int> location): 
-        vehicle(vehicle), parkedLocation(location) { }
+    private:
+        Vehicle* vehicle;
+        // <floor, slotNumber>
+        pair<int, int> parkedLocation = {-1, -1};
+    public:
+        ParkingTicket(Vehicle* vehicle, pair<int, int> location): 
+            vehicle(vehicle), parkedLocation(location) { }
 
-    pair<int, int> getParkedLocation() { return parkedLocation; }
+        // Returns the location where the vehicle is parked.
+        pair<int, int> getParkedLocation() { return parkedLocation; }
 
-    Vehicle* getVehicle() { return vehicle; }
+        // Returns the vehicle that was parked.
+        Vehicle* getVehicle() { return vehicle; }
 };
 
 class PaymentMode {
