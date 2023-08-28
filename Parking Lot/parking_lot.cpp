@@ -6,11 +6,13 @@
 using namespace std;
 
 //////// Base Entities
+// Base class that represents a way to compute the cost for parking.
 class PaymentAdvisor {
 public:
     virtual double calculateCharge(chrono::duration<double> duration) = 0;
 };
 
+// Base vehicle class
 class Vehicle {
 private:
     string registrationNumber;
@@ -65,6 +67,7 @@ class ParkingTicket {
         Vehicle* getVehicle() { return vehicle; }
 };
 
+// Represents a class that can be used to pay for parking.
 class PaymentMode {
 public:
     virtual void pay(double amount) = 0;
