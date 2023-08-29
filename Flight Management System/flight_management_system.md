@@ -178,3 +178,53 @@ classDiagram
 ```
 
 ## Explanation
+Certainly! Here's the explanation of the provided code in Markdown format:
+
+## Flight Management System Explanation
+
+The provided code implements a Flight Management System in C++, simulating a simplified airline booking system. It consists of various classes representing different entities and their interactions. Let's delve into the main components and their functionalities:
+
+### Base Entities
+
+- **`enum class FlightStatus`**: This enumeration defines various flight statuses, such as "OnTime," "Delayed," "Canceled," and more.
+
+- **`enum class BookingStatus`**: This enumeration represents booking statuses like "Confirmed," "Canceled," etc.
+
+- **`Flight`**: The `Flight` class represents a flight entity. It contains attributes like flight ID, name, arrival city, departure city, departure time, status, capacity, and available seats. It manages seat availability, booking, and releasing. Passengers can inquire about available seats, acquire seats, and release them.
+
+- **`Passenger`**: Represents a passenger with attributes including name, email, and a set of booking IDs. Passengers can view their bookings, add booking IDs, and remove them.
+
+- **`Staff`**: Represents staff members associated with the airline, defined by a name and staff ID.
+
+- **`Booking`**: This class encapsulates booking information. It holds a booking ID, flight, passenger, and booking status. Passengers can view booking details and cancel bookings.
+
+- **`ITicketPriceAdvisor`**: This is an interface representing a ticket price advisor. Subclasses can implement the `calculatePrice` method to calculate ticket prices for different flights.
+
+- **`IPayment`**: An interface representing payment methods. Subclasses can implement the `pay` method for payment-related actions.
+
+### Entity Implementations
+
+- **`TicketPriceAdvisor`**: This class implements the `ITicketPriceAdvisor` interface. It provides a simple fixed price for ticket calculations.
+
+- **`CreditCard`**: This class implements the `IPayment` interface. It simulates credit card payment, allowing payment of a specified amount.
+
+### Flight Management System
+
+- **`FlightManagementSystem`**: This class serves as the core of the system. It manages flights, bookings, and their interactions.
+  - It contains an `unordered_map` called `flights`, where the key is a concatenation of source and destination cities, and the value is a set of `Flight*`.
+  - Methods include adding and removing flights, searching for flights between cities, booking flights, canceling bookings, and modifying flight details.
+  - It generates booking IDs using random characters.
+
+### Main Function (`main`)
+
+- Inside the `main` function:
+  - Instances of `FlightManagementSystem`, `CreditCard`, and `TicketPriceAdvisor` are created.
+  - Flights are created and added to the system.
+  - Passengers are created.
+  - Flight searches and bookings are demonstrated.
+  - Payment is processed using the `CreditCard` class, and ticket prices are calculated using the `TicketPriceAdvisor`.
+  - Booking statuses are set, and booking details are displayed.
+  - Booking cancellations are demonstrated.
+  - The program terminates.
+
+Keep in mind that this code represents a simplified flight management system for demonstration purposes. It lacks some real-world complexities such as persistence, authentication, security, and comprehensive error handling that a production system would require.
